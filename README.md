@@ -1,2 +1,2 @@
 # LinuxVM-Deploy
-Deply Linux virtual machine to Azure with JSON template
+Развертывание виртуальной машины Linux в  Azure по шаблону в формате JSON
