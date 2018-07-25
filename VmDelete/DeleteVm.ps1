@@ -64,7 +64,6 @@ $PipName
 
 # Для отсоединения публичного адреса от сетевого интерфейса обнуляем IpConfiguration для объекта "Public IP address" 
 $nic.IpConfigurations.PublicIpAddress.id = ""
-#$PipId="" #через переменную не обнуляет
 Set-AzureRmNetworkInterface -NetworkInterface $nic
 
 # Удаляем Public Ip Address только после отвязки (Dissociating) от сетевого интерфейса
