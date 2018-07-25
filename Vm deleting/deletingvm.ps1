@@ -1,1 +1,0 @@
-Get-AzureRmResource -ResourceGroupName rgTechno -ResourceType Microsoft.Compute/virtualMachines
