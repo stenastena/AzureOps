@@ -6,7 +6,7 @@
       "value": "superadmin"
     },
     "dnsLabelPrefix": {
-      "value": "technonikol"
+      "value": "mydnsblablabla"
     },
     "sshKeyData": {
       "value": "ssh-rsa Основное тело публичного ключа username@host_where_cert_was_issued"
