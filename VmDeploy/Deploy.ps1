@@ -14,12 +14,12 @@ $Location="westeurope"
 $job = 'job' + (Get-Date).tostring("ddMMyyyyHHmmss")
 
 # Главный шаблон, в котором находятся все настройки. Шаблон в формате json
-$template="C:\Users\osherovsy\GoogleDrive\Work\_KnowledgeBase\Azure\ARM\Learning\Techonikol\DeployVM\azuredeploy.json"
+$template="C:\DeployVM\azuredeploy.json"
 
 # Добавочный шаблон с входными параметрами для развертывания.
 # Конкретизирует отдельные параметры относительно основного шаблона.
 # Если его не будет, то все параметры будут стоять по умолчанию.
-$parms="C:\Users\osherovsy\GoogleDrive\Work\_KnowledgeBase\Azure\ARM\Learning\Techonikol\DeployVM\azuredeploy.parameters.json"
+$parms="C:\DeployVM\azuredeploy.parameters.json"
 
 #Создание ресурсной группы
 New-AzureRmResourceGroup -Name $rg -Location $Location -force
