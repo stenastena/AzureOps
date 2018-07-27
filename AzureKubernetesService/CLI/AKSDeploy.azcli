@@ -1,13 +1,17 @@
+#!/bin/bash
+
 #az login
-###az group create --name rgAKS --location westeurope
-###az network vnet create --name vnet1  --resource-group rgAKS --location westeurope
+az group create --name rgAKS --location westeurope
+az network vnet create --name VnetAKS  --resource-group rgAKS --location westeurope
+az network vnet subnet create --address-prefix 192.168.0.0/24 --name SubnetForAKS --vnet-name VnetAKS --resource-group rgAKS
 
 # Получение данных сети 
-subnetid=az network vnet subnet list --resource-group rgAKS --vnet-name vnet1 --query [].id --output tsv
+SubnetId=`az network vnet subnet list --resource-group rgAKS --vnet-name VnetAKS --query [].id --output tsv`
+echo "SubnetId:"
+echo $SubnetId
 
-echo $subnetid
-
-#az aks create --name AKSCluster --resource-group rgAKS --node-count 1 --generate-ssh-keys
+az aks create --name AKSCluster --resource-group rgAKS --node-count 1 --generate-ssh-keys
 
 # Создание кластера с advanced network. Требуется передать <subnet-id>
 #az aks create --name AKSCluster --resource-group rgAKS --node-count 1  --network-plugin azure --vnet-subnet-id subnetid --docker-bridge-address 172.17.0.1/16 --dns-service-ip 10.2.0.10 --service-cidr 10.2.0.0/24 --generate-ssh-keys 
+az aks list
