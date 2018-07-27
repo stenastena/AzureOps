@@ -1,0 +1,71 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "variables": {},
+    "resources": [
+        {
+            "apiVersion": "2018-03-31",
+            "type": "Microsoft.ContainerService/managedClusters",
+            "name": "aks-name",
+            "location": "string",
+            "tags": {},
+            "properties": {
+              "kubernetesVersion": "string",
+              "dnsPrefix": "string",
+              "agentPoolProfiles": [
+                {
+                  "name": "string",
+                  "count": 2,
+                  "vmSize": "Standard_B2s",
+                  "osDiskSizeGB": "integer",
+                  "dnsPrefix": "string",
+                  "ports": [
+                    "integer"
+                  ],
+                  "storageProfile": "string",
+                  "vnetSubnetID": "string",
+                  "maxPods": "integer",
+                  "osType": "string"
+                }
+              ],
+              "linuxProfile": {
+                "adminUsername": "string",
+                "ssh": {
+                  "publicKeys": [
+                    {
+                      "keyData": "string"
+                    }
+                  ]
+                }
+              },
+              "servicePrincipalProfile": {
+                "clientId": "string",
+                "secret": "string",
+                "keyVaultSecretRef": {
+                  "vaultID": "string",
+                  "secretName": "string",
+                  "version": "string"
+                }
+              },
+              "addonProfiles": {},
+              "enableRBAC": false,
+              "networkProfile": {
+                "networkPlugin": "string",
+                "networkPolicy": "calico",
+                "podCidr": "string",
+                "serviceCidr": "string",
+                "dnsServiceIP": "string",
+                "dockerBridgeCidr": "string"
+              },
+              "aadProfile": {
+                "clientAppID": "string",
+                "serverAppID": "string",
+                "serverAppSecret": "string",
+                "tenantID": "string"
+              }
+            }
+        }
+    ],
+    "outputs": {}
+}
