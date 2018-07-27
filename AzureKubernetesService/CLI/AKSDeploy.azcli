@@ -1,0 +1,10 @@
+az group create --name rgAKS --location westeurope
+az network vnet create --name vnet1 
+
+# Получение данных сети 
+$ az network vnet subnet list --resource-group myVnet --vnet-name myVnet --query [].id --output tsv
+
+az aks create --name AKSCluster --resource-group rgAKS --node-count 1 --generate-ssh-keys
+
+# Создание кластера с advanced network. Требуется передать <subnet-id>
+az aks create --name AKSCluster --resource-group rgAKS --node-count 1  --network-plugin azure --vnet-subnet-id <subnet-id> --docker-bridge-address 172.17.0.1/16 --dns-service-ip 10.2.0.10 --service-cidr 10.2.0.0/24 --generate-ssh-keys 
