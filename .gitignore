@@ -5,3 +5,7 @@ Vmdeleting/NetworkInterface.ps1
 Vmdeleting/PIP.ps1
 Vmdeleting/Storage.ps1
 Vmdeleting/deletingvm.ps1
+AzureKubernetesService/CLI/SP.azcli
+AzureKubernetesService/CLI/arlistgroups.azcli
+AzureKubernetesService/CLI/arr1.azcli
+AzureKubernetesService/CLI/arrays.azcli
