@@ -1,0 +1,13 @@
+#!/bin/bash
+
+####az login
+az group create --name rgAKS5 --location westeurope
+
+# Создание кластера с параметрами по умолчанию.
+# Creating a cluster AKS with default parameters.
+# Развертывание кластера с запрещенным RBAC позволяет упростить запуск dashboard без наделения сервис аккаунта (непонятно какого) определенными правами
+#az aks create --name AKSCl3 --resource-group rgAKS3 --node-count 1 --generate-ssh-keys --disable-rbac
+
+# Развертываем кластер AKS с заданным по умолчанию RBAC
+az aks create --name AKSC5 --resource-group rgAKS5 --node-count 1 --generate-ssh-keys
+
