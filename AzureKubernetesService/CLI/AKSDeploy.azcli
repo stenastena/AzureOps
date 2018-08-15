@@ -3,16 +3,35 @@
 ####az login
 az group create --name rgAKS --location westeurope
 
-###az network vnet create --name VnetAKS  --resource-group rgAKS --location westeurope --address-prefixes 192.168.0.0/16
-###az network vnet subnet create --address-prefix 192.168.33.0/24 --name SubnetForAKS --vnet-name VnetAKS --resource-group rgAKS
+#----------------Создание кластера с расширенными параметрами (сеть - расширенная, RBAC - по умолчанию включен)------------
+az network vnet create --name VnetAKS  --resource-group rgAKS --location westeurope --address-prefixes 192.168.0.0/16
+az network vnet subnet create --address-prefix 192.168.33.0/24 --name SubnetForAKS --vnet-name VnetAKS --resource-group rgAKS
 
 # Получение данных сети 
-###SubnetId=`az network vnet subnet list --resource-group rgAKS --vnet-name VnetAKS --query [].id --output tsv`
+SubnetId=`az network vnet subnet list --resource-group rgAKS --vnet-name VnetAKS --query [].id --output tsv`
 #echo "SubnetId:"
 #echo $SubnetId
-#echo " "
-#echo " "
+#echo ""
 
+# Создание кластера с advanced network. Требуется передать <subnet-id>
+#az aks create --name AKSCluster --resource-group rgAKS --node-count 1  --network-plugin azure --vnet-subnet-id $SubnetId --docker-bridge-address 172.17.0.1/16 --dns-service-ip 10.2.0.10 --service-cidr 10.2.0.0/24 --generate-ssh-keys 
+az aks create --name AKSCluster --resource-group rgAKS --node-count 1  --network-plugin azure --vnet-subnet-id $SubnetId --generate-ssh-keys 
+
+# Получение полномочий на доступ к кластеру с машины где запускается скрипт 
+az aks get-credentials --resource-group rgAKS --name AKSCluster
+
+# Следующую команду можно исключить если не требуется доступ через WEB dashboard 
+kubectl create clusterrolebinding kubernetes-dashboard -n kube-system --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
+
+#az aks list
+#-------------------Кластер создан-----------------------------------------------------------
+
+#----------------Создание кластера с параметрами по умолчанию (сеть - базовая, RBAC - включен)------------
+# Creating a cluster AKS with default parameters.
+#az aks create --name AKSCluster --resource-group rgAKS --node-count 1 --generate-ssh-keys
+#-------------------Кластер создан-----------------------------------------------------------
+
+#---------------Создание кластера с использованием создаваемой вручную системной учетной записи------------
 # Создание системной учетной записи (service principal) и запись параметров в массив. 
 # Необходимо обратить внимание на количество скобок, это важно. Иначе масив неправильно наполняется. 
 # 0-й элемент массива - AppId 
@@ -23,26 +42,16 @@ az group create --name rgAKS --location westeurope
 # Please notice the number of brackets
 # The member 0 of array is - AppId
 # The member 3 of array is - Pasword 
-SP=($(az ad sp create-for-rbac --skip-assignment --output tsv))
-echo "AppId:"
-AppIdSP=${SP[0]}
-echo $AppIdSP
-#echo ${SP[1]}
-#echo ${SP[2]}
-echo "Pass:"
-PassSP=${SP[3]}
-echo $PassSP
-echo ""
-
-# Создание кластера с параметрами по умолчанию.
-# Creating a cluster AKS with default parameters.
-#az aks create --name AKSCluster --resource-group rgAKS --node-count 1 --generate-ssh-keys
+#SP=($(az ad sp create-for-rbac --skip-assignment --output tsv))
+#echo "AppId:"
+#AppIdSP=${SP[0]}
+#echo $AppIdSP
+#echo "Pass:"
+#PassSP=${SP[3]}
+#echo $PassSP
+#echo ""
 
 # Создание кластера с использованием ранее созданной системной учетной записи.
 # Creating cluster AKS with service principal was created before.
-az aks create --name AKSCluster --resource-group rgAKS --node-count 1 --generate-ssh-keys --service-principal $AppIdSP --client-secret $PassSP
-
-# Создание кластера с advanced network. Требуется передать <subnet-id>
-#az aks create --name AKSCluster --resource-group rgAKS --node-count 1  --network-plugin azure --vnet-subnet-id $SubnetId --docker-bridge-address 172.17.0.1/16 --dns-service-ip 10.2.0.10 --service-cidr 10.2.0.0/24 --generate-ssh-keys 
-##az aks create --name AKSCluster --resource-group rgAKS --node-count 1  --network-plugin azure --vnet-subnet-id $SubnetId --generate-ssh-keys 
-###az aks list
+#az aks create --name AKSCluster --resource-group rgAKS --node-count 1 --generate-ssh-keys --service-principal $AppIdSP --client-secret $PassSP
+#-------------------Кластер создан-----------------------------------------------------------
