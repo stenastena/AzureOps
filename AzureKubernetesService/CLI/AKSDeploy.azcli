@@ -55,3 +55,6 @@ kubectl create clusterrolebinding kubernetes-dashboard -n kube-system --clusterr
 # Creating cluster AKS with service principal was created before.
 #az aks create --name AKSCluster --resource-group rgAKS --node-count 1 --generate-ssh-keys --service-principal $AppIdSP --client-secret $PassSP
 #-------------------Кластер создан-----------------------------------------------------------
+
+# Удаление кластера
+az aks delete --resource-group rgAKS --name AKSCluster
