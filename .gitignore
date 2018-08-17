@@ -13,3 +13,4 @@ AzureKubernetesService/logs/logs-from-hello-in-hello-deployment-f6fcb6cfc-pp2n7.
 AzureKubernetesService/yamlconfs/hello.yml
 AzureKubernetesService/yamlconfs/lin.deploy.yaml
 AzureKubernetesService/yamlconfs/nginx.deploy.yaml
+.vscode/settings.json
