@@ -15,7 +15,7 @@ SubnetId=`az network vnet subnet list --resource-group rgAKS --vnet-name VnetAKS
 
 # Создание кластера с advanced network. Требуется передать <subnet-id>
 #az aks create --name AKSCluster --resource-group rgAKS --node-count 1  --network-plugin azure --vnet-subnet-id $SubnetId --docker-bridge-address 172.17.0.1/16 --dns-service-ip 10.2.0.10 --service-cidr 10.2.0.0/24 --generate-ssh-keys 
-az aks create --name AKSCluster --resource-group rgAKS --node-count 1  --network-plugin azure --vnet-subnet-id $SubnetId --generate-ssh-keys 
+az aks create --name AKSCluster --resource-group rgAKS --node-count 1  --network-plugin azure --vnet-subnet-id $SubnetId --node-vm-size Standard_B2s --generate-ssh-keys 
 
 # Получение полномочий на доступ к кластеру с машины где запускается скрипт 
 az aks get-credentials --resource-group rgAKS --name AKSCluster
@@ -23,6 +23,8 @@ az aks get-credentials --resource-group rgAKS --name AKSCluster
 # Следующую команду можно исключить если не требуется доступ через WEB dashboard 
 kubectl create clusterrolebinding kubernetes-dashboard -n kube-system --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
 
+
+# Просмотр списка кластеров
 #az aks list
 #-------------------Кластер создан-----------------------------------------------------------
 
@@ -57,4 +59,10 @@ kubectl create clusterrolebinding kubernetes-dashboard -n kube-system --clusterr
 #-------------------Кластер создан-----------------------------------------------------------
 
 # Удаление кластера
-az aks delete --resource-group rgAKS --name AKSCluster
+#az aks delete --resource-group rgAKS --name AKSCluster
+
+# Запуск графического дашборда для Kubernetes
+#az aks browse --resource-group rgAKS --name AKSCluster
+
+# Деплой приложения в кластер
+#kubectl create -f ./lin.deploy.yaml
