@@ -20,3 +20,8 @@ README.md.bak
 VmDeploy/azuredeploy.json.bak
 VmDeploy/azuredeploy.parameters.json.bak
 VmDeploy/azuredeploy.parameters.general.json
+VmDelete/DeleteVm.ps1.bak
+VmDelete/DeleteVm.ps1.bak
+AzureKubernetesService/yamlconfs/linst.yaml
+AzureKubernetesService/yamlconfs/linst-serv.yaml
+VmDelete/DeleteVm.ps1.bak
