@@ -68,7 +68,7 @@ kubectl create clusterrolebinding kubernetes-dashboard -n kube-system --clusterr
 #az aks browse --resource-group rgAKS --name AKSCluster
 
 # Деплой приложения в кластер
-#kubectl create -f /mnt/c/Users/osherovsy/GoogleDrive/Git/AzureKubernetesService/yamlconfs/linst.deploy.yaml
+#kubectl create -f /mnt/c/Users/osherovsy/GoogleDrive/Git/AzureKubernetesService/yamlconfs/linst.yaml
 #kubectl create -f /mnt/c/Users/osherovsy/GoogleDrive/Git/AzureKubernetesService/yamlconfs/linst-serv.yaml
 #
 # Пинг из пода
