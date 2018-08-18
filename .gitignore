@@ -14,3 +14,5 @@ AzureKubernetesService/yamlconfs/hello.yml
 AzureKubernetesService/yamlconfs/lin.deploy.yaml
 AzureKubernetesService/yamlconfs/nginx.deploy.yaml
 .vscode/settings.json
+pod-lin-deployment-84d4f9599d-2fpww.yaml
+
