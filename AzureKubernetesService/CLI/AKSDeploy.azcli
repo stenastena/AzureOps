@@ -4,11 +4,14 @@
 az group create --name rgAKS --location westeurope
 
 #----------------Создание кластера с расширенными параметрами (сеть - расширенная, RBAC - по умолчанию включен)------------
-az network vnet create --name VnetAKS  --resource-group rgAKS --location westeurope --address-prefixes 192.168.0.0/16
-az network vnet subnet create --address-prefix 192.168.33.0/24 --name SubnetForAKS --vnet-name VnetAKS --resource-group rgAKS
+# В новом варианте, не создаем сеть, а пользуемся ранее созданной (при деплое отдельных виртуальных машин для других целей).
+##az network vnet create --name VnetAKS  --resource-group rgAKS --location westeurope --address-prefixes 192.168.0.0/16
+##az network vnet subnet create --address-prefix 192.168.33.0/24 --name SubnetForAKS --vnet-name VnetAKS --resource-group rgAKS
 
 # Получение данных сети 
-SubnetId=`az network vnet subnet list --resource-group rgAKS --vnet-name VnetAKS --query [].id --output tsv`
+##SubnetId=`az network vnet subnet list --resource-group rgAKS --vnet-name VnetAKS --query [].id --output tsv`
+# При получении индентификатора подсети указываем ресурсную группу где расположена Vnet
+SubnetId=`az network vnet subnet list --resource-group rgTechno --vnet-name VnetAKS --query [].id --output tsv`
 #echo "SubnetId:"
 #echo $SubnetId
 #echo ""
@@ -65,4 +68,11 @@ kubectl create clusterrolebinding kubernetes-dashboard -n kube-system --clusterr
 #az aks browse --resource-group rgAKS --name AKSCluster
 
 # Деплой приложения в кластер
-#kubectl create -f ./lin.deploy.yaml
+#kubectl create -f /mnt/c/Users/osherovsy/GoogleDrive/Git/AzureKubernetesService/yamlconfs/linst.deploy.yaml
+#kubectl create -f /mnt/c/Users/osherovsy/GoogleDrive/Git/AzureKubernetesService/yamlconfs/linst-serv.yaml
+#
+# Пинг из пода
+# kubectl exec -ti hello-world-5b446dd74b-fpgpq ping xxxxxxxxx 
+#
+#
+#

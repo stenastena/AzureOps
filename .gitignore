@@ -16,3 +16,7 @@ AzureKubernetesService/yamlconfs/nginx.deploy.yaml
 .vscode/settings.json
 pod-lin-deployment-84d4f9599d-2fpww.yaml
 
+README.md.bak
+VmDeploy/azuredeploy.json.bak
+VmDeploy/azuredeploy.parameters.json.bak
+VmDeploy/azuredeploy.parameters.general.json
