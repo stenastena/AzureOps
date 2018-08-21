@@ -1,0 +1,31 @@
+#!/bin/bash
+
+#==============================================================================
+# define variables
+rgName="rgFS"
+location="westeurope"
+saSku="Standard_LRS"
+
+# generate random storage account name
+saName=$(head /dev/urandom | tr -dc a-z0-9 | head -c 16)
+fsName="fileshare01"
+
+# file share quota in GB
+quota="100"
+
+# new file share quota in GB
+newQuota="200"
+
+# create resource group
+az group create --name $rgName --location $location
+
+# create storage account
+az storage account create --name $saName -g $rgName -l $location --sku $saSku
+
+# create file share
+az storage share create --name $fsName --account-name $saName --quota $quota
+
+#==============================================================================
+# update file share quota
+
+az storage share update --name $fsName --account-name $saName --quota $newQuota
