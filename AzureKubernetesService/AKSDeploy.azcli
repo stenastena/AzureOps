@@ -1,78 +1,52 @@
 #!/bin/bash
 
+# Используем если требуется каждый раз логиниться в Azure
 ####az login
-az group create --name rgAKS --location westeurope
+
+#==============================================================================
+# Задаем переменные
+# Задаем имя ресурсной группы в которой будем создавать кластер Azure Kubernetes Service (AKS)
+rgname="rgAKS"
+# Задаем расположение ресурсной группы
+location="westeurope"
+# Задаем имя кластера AKS
+aksname="AKSCluster"
+# Задаем количество узлов в кластере AKS
+nodes=1
+# Задаем имя ресурсной группы где расположена сеть в которую должен подсоединяться кластер AKS
+rgnamevnet="rgTechno"
+# Задаем имя сети к которой подсоединяется кластер AKS
+vnetname="VnetAKS"
+#==============================================================================
+
+
+az group create --name $rgname --location $location
 
 #----------------Создание кластера с расширенными параметрами (сеть - расширенная, RBAC - по умолчанию включен)------------
-# В новом варианте, не создаем сеть, а пользуемся ранее созданной (при деплое отдельных виртуальных машин для других целей).
-##az network vnet create --name VnetAKS  --resource-group rgAKS --location westeurope --address-prefixes 192.168.0.0/16
-##az network vnet subnet create --address-prefix 192.168.33.0/24 --name SubnetForAKS --vnet-name VnetAKS --resource-group rgAKS
 
 # Получение данных сети 
-##SubnetId=`az network vnet subnet list --resource-group rgAKS --vnet-name VnetAKS --query [].id --output tsv`
 # При получении индентификатора подсети указываем ресурсную группу где расположена Vnet
-SubnetId=`az network vnet subnet list --resource-group rgTechno --vnet-name VnetAKS --query [].id --output tsv`
-#echo "SubnetId:"
-#echo $SubnetId
-#echo ""
+SubnetId=`az network vnet subnet list --resource-group $rgnamevnet --vnet-name $vnetname --query [].id --output tsv`
 
 # Создание кластера с advanced network. Требуется передать <subnet-id>
-#az aks create --name AKSCluster --resource-group rgAKS --node-count 1  --network-plugin azure --vnet-subnet-id $SubnetId --docker-bridge-address 172.17.0.1/16 --dns-service-ip 10.2.0.10 --service-cidr 10.2.0.0/24 --generate-ssh-keys 
-az aks create --name AKSCluster --resource-group rgAKS --node-count 1  --network-plugin azure --vnet-subnet-id $SubnetId --node-vm-size Standard_B2s --generate-ssh-keys 
+az aks create --name $aksname --resource-group $rgname --node-count $nodes  --network-plugin azure --vnet-subnet-id $SubnetId --node-vm-size Standard_B2s --generate-ssh-keys 
 
 # Получение полномочий на доступ к кластеру с машины где запускается скрипт 
-az aks get-credentials --resource-group rgAKS --name AKSCluster
+az aks get-credentials --resource-group $rgname --name AKSCluster
 
-# Следующую команду можно исключить если не требуется доступ через WEB dashboard 
-kubectl create clusterrolebinding kubernetes-dashboard -n kube-system --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
+# Данную команду включаем если требуется доступ через WEB dashboard 
+#kubectl create clusterrolebinding kubernetes-dashboard -n kube-system --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
 
-
-# Просмотр списка кластеров
-#az aks list
 #-------------------Кластер создан-----------------------------------------------------------
 
-#----------------Создание кластера с параметрами по умолчанию (сеть - базовая, RBAC - включен)------------
-# Creating a cluster AKS with default parameters.
-#az aks create --name AKSCluster --resource-group rgAKS --node-count 1 --generate-ssh-keys
-#-------------------Кластер создан-----------------------------------------------------------
-
-#---------------Создание кластера с использованием создаваемой вручную системной учетной записи------------
-# Создание системной учетной записи (service principal) и запись параметров в массив. 
-# Необходимо обратить внимание на количество скобок, это важно. Иначе масив неправильно наполняется. 
-# 0-й элемент массива - AppId 
-# 1-й элемент массива - имя service proncipal
-# 2-й элемент массива - неиспользуемая конечная точка
-# 3-й элемент массива - пароль, который появляется только при создании service principal и затем его не вытащить если не хранить в keyvault  
-# Creating service principal and writing parameters to an array
-# Please notice the number of brackets
-# The member 0 of array is - AppId
-# The member 3 of array is - Pasword 
-#SP=($(az ad sp create-for-rbac --skip-assignment --output tsv))
-#echo "AppId:"
-#AppIdSP=${SP[0]}
-#echo $AppIdSP
-#echo "Pass:"
-#PassSP=${SP[3]}
-#echo $PassSP
-#echo ""
-
-# Создание кластера с использованием ранее созданной системной учетной записи.
-# Creating cluster AKS with service principal was created before.
-#az aks create --name AKSCluster --resource-group rgAKS --node-count 1 --generate-ssh-keys --service-principal $AppIdSP --client-secret $PassSP
-#-------------------Кластер создан-----------------------------------------------------------
 
 # Удаление кластера
-#az aks delete --resource-group rgAKS --name AKSCluster
+#az aks delete --resource-group $rgname --name $aksname
 
 # Запуск графического дашборда для Kubernetes
-#az aks browse --resource-group rgAKS --name AKSCluster
+#az aks browse --resource-group $rgname --name $aksname
 
 # Деплой приложения в кластер
-#kubectl create -f /mnt/c/Users/osherovsy/GoogleDrive/Git/AzureKubernetesService/yamlconfs/linst.yaml
-#kubectl create -f /mnt/c/Users/osherovsy/GoogleDrive/Git/AzureKubernetesService/yamlconfs/linst-serv.yaml
-#
-# Пинг из пода
-# kubectl exec -ti hello-world-5b446dd74b-fpgpq ping xxxxxxxxx 
-#
-#
+#kubectl create -f /mnt/c/yamlconfs/linst.yaml
+#kubectl create -f /mnt/c/yamlconfs/linst-serv.yaml
 #
