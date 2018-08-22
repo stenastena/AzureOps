@@ -26,3 +26,4 @@ AzureKubernetesService/yamlconfs/linst.yaml
 AzureKubernetesService/yamlconfs/linst-serv.yaml
 VmDelete/DeleteVm.ps1.bak
 AzureFileShare/tst.azcli
+AzureKubernetesService/AKSDeploy.full.azcli
