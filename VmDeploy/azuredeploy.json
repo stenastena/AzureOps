@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
@@ -13,6 +13,12 @@
       "metadata": {
         "description": "Password for the Virtual Machine."
       }
+    },
+    "vnetname": {
+       "type": "string",
+       "metadata": {
+            "Name of virtual network": ""
+        }
     },
     "dnsLabelPrefix": {
       "type": "string",
@@ -94,20 +100,20 @@
     }
   },
   "variables": {
-    "vmName": "[concat('Vm', deployment().name) ]",
+    "vmName": "[concat('', deployment().name) ]",
     "storageAccountName": "[toLower(concat('storac', uniqueString(resourceGroup().id)))]",
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
     "nicName": "[concat('Nic', variables('vmName'))]",
-    "addressPrefix": "10.0.0.0/16",
+    "virtualNetworkName": "[parameters('vnetname')]",
+    "addressPrefix": "192.168.0.0/16",
     "subnetName": "Subnet",
-    "subnetPrefix": "10.0.0.0/24",
+    "subnetPrefix": "192.168.33.0/24",
     "storageAccountType": "Standard_LRS",
     "comments_for_storageAccountType": "Storage Account нужен исключительно для хранения диагностической информации",
     "publicIPAddressName": "[concat('Pip', variables('vmName'))]",
     "publicIPAddressType": "Dynamic",
     "vmSize": "[parameters('vmSize')]",
-    "virtualNetworkName": "Vnet1",
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
     "dnsLabelPrefix": "[toLower(concat(parameters('dnsLabelPrefix'), variables('vmName')))]",
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]"

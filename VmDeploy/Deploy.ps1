@@ -1,4 +1,4 @@
-#Перед запуском скрипта необходимо произвести вход в подписку Azure.
+﻿#Перед запуском скрипта необходимо произвести вход в подписку Azure.
 #Connect-AzureRmAccount
 #Представлен второй вариант на случай, если у пользователя несколько тенантов.
 #Connect-AzureRmAccount -TenantId xxxxxxxxxxxxxxxxxxxxx
@@ -11,15 +11,15 @@ $Location="westeurope"
 
 # Название деплоймента, чтобы потом отслеживать какое развертывание было удачным или нет и с какими event_ами
 # Также, название деплоймента используется для создания уникальных именований виртуальных машин
-$job = 'job' + (Get-Date).tostring("ddMMyyyyHHmmss")
+$job = 'vm' + (Get-Date).tostring("ddMMyyyyHHmmss")
 
 # Главный шаблон, в котором находятся все настройки. Шаблон в формате json
-$template="C:\DeployVM\azuredeploy.json"
+$template="azuredeploy.json"
 
 # Добавочный шаблон с входными параметрами для развертывания.
 # Конкретизирует отдельные параметры относительно основного шаблона.
 # Если его не будет, то все параметры будут стоять по умолчанию.
-$parms="C:\DeployVM\azuredeploy.parameters.json"
+$parms="azuredeploy.parameters.json"
 
 #Создание ресурсной группы
 New-AzureRmResourceGroup -Name $rg -Location $Location -force
