@@ -19,3 +19,5 @@ VmDelete/DeleteVm.ps1.bak
 VmDelete/DeleteVm.ps1.bak
 AzureFileShare/tst.azcli
 AzureKubernetesService/AKSDeploy.full.azcli
+.gitignore.bak
+.gitignore.old
