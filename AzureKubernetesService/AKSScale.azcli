@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Используем если требуется каждый раз логиниться в Azure
+####az login
+
+
+#==============================================================================
+# Задаем переменные
+# Задаем имя ресурсной группы в которой будем создавать кластер Azure Kubernetes Service (AKS)
+rgname="rgAKS"
+# Задаем имя кластера AKS
+aksname="AKSCluster"
+# Задаем количество узлов в кластере AKS
+nodes=3
+#==============================================================================
+
+
+#----------------Масштабирование кластера ------------
+az aks scale --name $aksname --resource-group $rgname --node-count $nodes 
+
+
+#-------------------Дополнительные команды, не связанные с масштабированием-----------------------------------------------------------
+# Вывести список кластеров AKS для заданной ресурсной группы
+az aks list --resource-group $rgname --output table
+
+# Получение полномочий на доступ к кластеру с машины где запускается скрипт 
+#az aks get-credentials --resource-group $rgname --name AKSCluster
+
+# Данную команду включаем если требуется доступ через WEB dashboard 
+#kubectl create clusterrolebinding kubernetes-dashboard -n kube-system --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
+
+# Удаление кластера
+#az aks delete --resource-group $rgname --name $aksname
+
+# Запуск графического дашборда для Kubernetes
+#az aks browse --resource-group $rgname --name $aksname
+
+# Деплой приложения в кластер
+#kubectl create -f /mnt/c/yamlconfs/linst.yaml
+#kubectl create -f /mnt/c/yamlconfs/linst-serv.yaml
+#
