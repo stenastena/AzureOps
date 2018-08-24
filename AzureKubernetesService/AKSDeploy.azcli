@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 # Используем если требуется каждый раз логиниться в Azure
 ####az login
@@ -17,6 +17,8 @@ nodes=1
 rgnamevnet="rgTechno"
 # Задаем имя сети к которой подсоединяется кластер AKS
 vnetname="VnetAKS"
+# Задаем размер узла в кластере
+nodesize="Standard_B2s"
 #==============================================================================
 
 
@@ -29,7 +31,7 @@ az group create --name $rgname --location $location
 SubnetId=`az network vnet subnet list --resource-group $rgnamevnet --vnet-name $vnetname --query [].id --output tsv`
 
 # Создание кластера с advanced network. Требуется передать <subnet-id>
-az aks create --name $aksname --resource-group $rgname --node-count $nodes  --network-plugin azure --vnet-subnet-id $SubnetId --node-vm-size Standard_B2s --generate-ssh-keys 
+az aks create --name $aksname --resource-group $rgname --node-count $nodes  --network-plugin azure --vnet-subnet-id $SubnetId --node-vm-size $nodesize --generate-ssh-keys 
 
 # Получение полномочий на доступ к кластеру с машины где запускается скрипт 
 az aks get-credentials --resource-group $rgname --name AKSCluster
