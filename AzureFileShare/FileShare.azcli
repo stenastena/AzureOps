@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 #==============================================================================
 # define variables
@@ -8,17 +8,17 @@ rgName="rgFS"
 location="westeurope"
 # Задаем тип учетной записи хранения. LRS - только локальное хранение в одном регионе (со встроенными тремя копиями)
 saSku="Standard_LRS"
+# Задаем квоту на размер хранилища в ГБайтах
+quota="10"
+#
+# new file share quota in GB
+# Используем в варианте скрипта для изменения квоты
+#newQuota="200"
+#==============================================================================
 
 # generate random storage account name
 saName=$(head /dev/urandom | tr -dc a-z0-9 | head -c 16)
 fsName="fileshare01"
-
-# file share quota in GB
-quota="100"
-
-# new file share quota in GB
-# Используем в варианте скрипта для изменения квоты
-#newQuota="200"
 
 # create resource group
 az group create --name $rgName --location $location
