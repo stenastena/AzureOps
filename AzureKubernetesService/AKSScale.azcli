@@ -6,12 +6,12 @@
 
 #==============================================================================
 # Задаем переменные
-# Задаем имя ресурсной группы в которой будем создавать кластер Azure Kubernetes Service (AKS)
+# Задаем имя ресурсной группы в которой существует кластер Azure Kubernetes Service (AKS)
 rgname="rgAKS"
-# Задаем имя кластера AKS
+# Задаем имя существующего кластера AKS
 aksname="AKSCluster"
-# Задаем количество узлов в кластере AKS
-nodes=3
+# Задаем требуемое количество узлов в кластере AKS
+nodes=2
 #==============================================================================
 
 
@@ -24,7 +24,7 @@ az aks scale --name $aksname --resource-group $rgname --node-count $nodes
 az aks list --resource-group $rgname --output table
 
 # Получение полномочий на доступ к кластеру с машины где запускается скрипт 
-#az aks get-credentials --resource-group $rgname --name AKSCluster
+#az aks get-credentials --resource-group $rgname --name $aksname
 
 # Данную команду включаем если требуется доступ через WEB dashboard 
 #kubectl create clusterrolebinding kubernetes-dashboard -n kube-system --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
