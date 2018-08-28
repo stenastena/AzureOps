@@ -34,7 +34,7 @@ SubnetId=`az network vnet subnet list --resource-group $rgnamevnet --vnet-name $
 az aks create --name $aksname --resource-group $rgname --node-count $nodes  --network-plugin azure --vnet-subnet-id $SubnetId --node-vm-size $nodesize --generate-ssh-keys 
 
 # Получение полномочий на доступ к кластеру с машины где запускается скрипт 
-az aks get-credentials --resource-group $rgname --name AKSCluster
+az aks get-credentials --resource-group $rgname --name $aksname
 
 # Данную команду включаем если требуется доступ через WEB dashboard 
 #kubectl create clusterrolebinding kubernetes-dashboard -n kube-system --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard

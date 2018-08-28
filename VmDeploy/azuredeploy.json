@@ -100,7 +100,7 @@
     }
   },
   "variables": {
-    "vmName": "[concat('', deployment().name) ]",
+    "vmName": "[concat('vm', deployment().name) ]",
     "storageAccountName": "[toLower(concat('storac', uniqueString(resourceGroup().id)))]",
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
