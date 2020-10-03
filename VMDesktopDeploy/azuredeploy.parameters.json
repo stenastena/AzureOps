@@ -1,0 +1,49 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": 
+    {
+        "virtualMachineName": 
+        {
+            "value": "Win10"
+        },
+        "adminUsername": 
+        {
+            "reference": 
+            {
+                "keyVault": 
+                {
+                "id": "/subscriptions/f5b5d7b3-27e6-47ba-83c1-58824d3eb42b/resourceGroups/rgGeneral/providers/Microsoft.KeyVault/vaults/KeyVault-General-001"
+                },
+                "secretName": "adminUsername"
+            }
+        },
+        "adminPassword": 
+        {
+            "reference": 
+            {
+                "keyVault": 
+                {
+                "id": "/subscriptions/f5b5d7b3-27e6-47ba-83c1-58824d3eb42b/resourceGroups/rgGeneral/providers/Microsoft.KeyVault/vaults/KeyVault-General-001"
+                },
+                "secretName": "supersecret"
+            }
+        },
+        "NumberOfVMs": 
+        {
+            "value": 5
+        },
+        "virtualMachineSize": 
+        {
+            "value": "Standard_B2s" 
+        },
+        "resourceTags": 
+        {
+            "value": 
+                {
+                 "Stage": "Test",
+                 "Project": "Intune"
+                }
+        }
+    }
+}

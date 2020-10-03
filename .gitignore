@@ -21,3 +21,5 @@ AzureFileShare/tst.azcli
 AzureKubernetesService/AKSDeploy.full.azcli
 .gitignore.bak
 .gitignore.old
+Task and video for delivery engineer/
+GCP-K8S-Gitlab-Terraform/
